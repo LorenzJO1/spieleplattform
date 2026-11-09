@@ -18,7 +18,7 @@ function splitMelds(cards){
  const memo=new Map();
  function solve(remaining){if(!remaining.length)return [];const key=remaining.map(c=>c.id).sort((a,b)=>a-b).join(',');if(memo.has(key))return memo.get(key);
  const first=remaining[0],others=remaining.slice(1);let found=null;
- function search(start,pick){if(found)return; if(pick.length>=3&&valid(pick)){const ids=new Set(pick.map(c=>c.id));const rest=remaining.filter(c=>!ids.has(c.id));const next=solve(rest);if(next!==null){found=[pick,...next];return}}if(pick.length>=13)return;for(let i=start;i<others.length;i++){pick.push(others[i]);search(i+1,pick);pick.pop();if(found)return}}
+ function search(start,pick){if(found)return; if(pick.length>=3&&valid(pick)){const ids=new Set(pick.map(c=>c.id));const rest=remaining.filter(c=>!ids.has(c.id));const next=solve(rest);if(next!==null){found=[pick.slice(),...next];return}}if(pick.length>=13)return;for(let i=start;i<others.length;i++){pick.push(others[i]);search(i+1,pick);pick.pop();if(found)return}}
  search(0,[first]);memo.set(key,found);return found}
  return solve(cards)
 }
